@@ -1,77 +1,59 @@
-﻿# Evaluación 01 — Sistema de Citas Médicas
+﻿# Evaluacion 01 - Sistema de Citas Medicas
 
-**Curso:** Desarrollo de Aplicaciones Web
-**Semana:** 04
-**Repositorio:** [Citas_Medicas_Desarrollo_Web](https://github.com/iam1shel/Citas_Medicas_Desarrollo_Web)
-**Estudiante:** Luz Mishel Rojas Tuesta
-**Tipo:** Trabajo grupal (aporte individual documentado abajo)
+Institucion: TECSUP
+Curso: Desarrollo de Aplicaciones Web
+Docente: Coello Palomino, Ricardo
+Semana: 04
+Tipo: Trabajo grupal
+Repositorio: https://github.com/iam1shel/Citas_Medicas_Desarrollo_Web
 
----
+## Equipo
 
-## 1. Presentación
+- Mishel Rojas - Registro - RF-CIT-01, RF-CIT-02
+- Jordy Ponce - Agenda - RF-CIT-07, RF-CIT-08
+- Luis Abad - Gestion - RF-CIT-09, RF-CIT-10, RF-CIT-11, RF-CIT-12, RF-CIT-13
+- David Valcarcel - Consultas y reportes - RF-CIT-17, RF-CIT-20
 
-Este repositorio corresponde a la **Evaluación 01** del curso de Desarrollo de Aplicaciones Web. El caso es un **sistema de citas médicas**.
+## Descripcion
 
-El desarrollo completo es **grupal**. En esta entrega se documenta únicamente el alcance asignado a **Luz Mishel Rojas Tuesta**: el registro de citas y la generación automática del código único.
+Modulo Citas Medicas de un sistema web de gestion hospitalaria.
+Permite registrar, programar, consultar y reportar citas, con Spring Boot, MySQL, APIs REST y Thymeleaf.
 
-El resto de módulos corresponde a otros integrantes del equipo y **no se implementa aquí**.
+Cada cita tiene un codigo automatico (ejemplo: CIT-000125) y estados como PROGRAMADA, CONFIRMADA, EN ESPERA, EN ATENCION, ATENDIDA, CANCELADA o NO ASISTIO.
 
----
+## Registro - Mishel Rojas
 
-## 2. Alcance individual
+RF-CIT-01: El sistema debera permitir registrar citas medicas.
+RF-CIT-02: El sistema debera generar automaticamente un codigo unico para cada cita.
 
-| Código | Requerimiento | Estado |
-|---|---|---|
-| **RF-CIT-01** | El sistema deberá permitir registrar citas médicas. | Asignado |
-| **RF-CIT-02** | El sistema deberá generar automáticamente un código único para cada cita. | Asignado |
+Datos de la cita: ID, codigo, paciente, DNI, especialidad, medico, consultorio, fecha, hora, tipo de atencion, motivo, observaciones y estado.
 
----
+## Agenda - Jordy Ponce
 
-## 3. RF-CIT-01 — Registrar citas médicas
+RF-CIT-07: El sistema debera mostrar la agenda de cada medico.
+RF-CIT-08: El sistema debera permitir consultar la agenda por dia, semana y mes.
 
-El sistema debe permitir **crear una nueva cita médica**.
+Cada medico visualiza sus citas. No se puede reservar un horario ocupado.
 
-### Qué debe hacer
+## Gestion - Luis Abad
 
-- Registrar una cita con fecha, hora, paciente, médico y motivo (u otros campos que defina el equipo).
-- Validar que los datos obligatorios estén completos antes de guardar.
-- Confirmar el registro.
-- Poder consultar la cita recién creada.
+RF-CIT-09: El sistema debera permitir modificar una cita.
+RF-CIT-10: El sistema debera permitir reprogramar una cita.
+RF-CIT-11: El sistema debera permitir cancelar una cita.
+RF-CIT-12: El sistema debera registrar el motivo de cancelacion o reprogramacion.
+RF-CIT-13: El sistema debera permitir cambiar el estado de la cita.
 
-### Criterios de aceptación
+La cita no se elimina: queda CANCELADA y se guarda el historial.
 
-1. Un usuario puede enviar los datos de una cita y el sistema la guarda.
-2. Si falta un dato obligatorio, el sistema no registra la cita y avisa el error.
-3. La cita queda persistida y se puede consultar después del registro.
+## Consultas y reportes - David Valcarcel
 
----
+RF-CIT-17: El sistema debera permitir buscar citas por paciente, medico, especialidad, fecha y estado.
+RF-CIT-20: El sistema debera generar reportes de citas por medico y especialidad.
 
-## 4. RF-CIT-02 — Código único automático
+Tambien: citas del dia, semana y mes, atendidas, canceladas, no asistieron y porcentaje de asistencia.
 
-Cada cita debe tener un **código único generado por el sistema**. El usuario **no** lo escribe a mano.
+## Como ejecutar
 
-### Qué debe hacer
-
-- Al registrar una cita (RF-CIT-01), el sistema asigna un código automáticamente.
-- El código no se repite.
-- El código se muestra al confirmar y al consultar la cita.
-
-### Criterios de aceptación
-
-1. Al crear una cita, el código se genera sin que el usuario lo ingrese.
-2. Dos citas distintas nunca tienen el mismo código.
-3. El código queda asociado a la cita.
-
----
-
-## 5. Relación entre ambos requerimientos
-
-1. El usuario registra la cita (**RF-CIT-01**).
-2. El sistema genera el código único (**RF-CIT-02**).
-3. Se guarda la cita con su código.
-
----
-
-## 6. Notas para el equipo
-
-Este README cubre **solo** RF-CIT-01 y RF-CIT-02. El resto se define en conjunto.
+1. Entra a la carpeta CitasMedicas
+2. Configura MySQL en src/main/resources/application.properties
+3. Ejecuta: mvnw.cmd spring-boot:run
