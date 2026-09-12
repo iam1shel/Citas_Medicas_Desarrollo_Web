@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita registrada</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">Citas Médicas · TECSUP</div>
+    <nav>
+        <a th:href="@{/citas/nueva}">Nueva cita</a>
+        &nbsp;·&nbsp;
+        <a th:href="@{/citas}">Citas registradas</a>
+    </nav>
+</header>
+<main class="wrap">
+    <section class="card">
+        <div class="alert alert-ok" th:if="${mensaje}" th:text="${mensaje}"></div>
+        <h1>Cita registrada</h1>
+        <p class="subtitle">Código único generado por el sistema</p>
+        <div class="code" th:text="${cita.codigoCita}">CIT-000001</div>
+        <dl class="dl">
+            <dt>Paciente</dt><dd th:text="${cita.paciente}"></dd>
+            <dt>DNI</dt><dd th:text="${cita.dni}"></dd>
+            <dt>Especialidad</dt><dd th:text="${cita.especialidad}"></dd>
+            <dt>Médico</dt><dd th:text="${cita.medico}"></dd>
+            <dt>Consultorio</dt><dd th:text="${cita.consultorio}"></dd>
+            <dt>Fecha</dt><dd th:text="${cita.fecha}"></dd>
+            <dt>Hora</dt><dd th:text="${cita.hora}"></dd>
+            <dt>Tipo</dt><dd th:text="${cita.tipoAtencion}"></dd>
+            <dt>Motivo</dt><dd th:text="${cita.motivo}"></dd>
+            <dt>Observaciones</dt><dd th:text="${cita.observaciones}"></dd>
+            <dt>Estado</dt><dd th:text="${cita.estado}"></dd>
+        </dl>
+        <div class="actions">
+            <a class="btn btn-primary" th:href="@{/citas/nueva}">Registrar otra</a>
+            <a class="btn btn-ghost" th:href="@{/citas}">Ver listado</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

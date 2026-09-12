@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas registradas</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">Citas Médicas · TECSUP</div>
+    <nav>
+        <a th:href="@{/citas/nueva}">Nueva cita</a>
+        &nbsp;·&nbsp;
+        <a th:href="@{/citas}">Citas registradas</a>
+    </nav>
+</header>
+<main class="wrap">
+    <section class="card">
+        <h1>Citas registradas</h1>
+        <p class="subtitle">Listado para comprobar el registro (RF-CIT-01 y RF-CIT-02).</p>
+
+        <p th:if="${#lists.isEmpty(citas)}">Aún no hay citas. Registra la primera.</p>
+
+        <table th:if="${!#lists.isEmpty(citas)}">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cita : ${citas}">
+                <td><a th:href="@{/citas/{id}(id=${cita.idCita})}" th:text="${cita.codigoCita}"></a></td>
+                <td th:text="${cita.paciente}"></td>
+                <td th:text="${cita.medico}"></td>
+                <td th:text="${cita.fecha}"></td>
+                <td th:text="${cita.hora}"></td>
+                <td th:text="${cita.estado}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

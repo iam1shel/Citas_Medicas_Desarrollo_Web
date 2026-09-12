@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva cita</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">Citas Médicas · TECSUP</div>
+    <nav>
+        <a th:href="@{/citas/nueva}">Nueva cita</a>
+        &nbsp;·&nbsp;
+        <a th:href="@{/citas}">Citas registradas</a>
+    </nav>
+</header>
+<main class="wrap">
+    <section class="card">
+        <h1>Registrar cita médica</h1>
+        <p class="subtitle">RF-CIT-01 y RF-CIT-02 · El código se genera solo, no lo escribas.</p>
+
+        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+        <form th:action="@{/citas}" th:object="${cita}" method="post">
+            <div class="grid">
+                <div class="full">
+                    <label>Paciente *</label>
+                    <input type="text" th:field="*{paciente}" placeholder="Juan Pérez López" required>
+                </div>
+                <div>
+                    <label>DNI *</label>
+                    <input type="text" th:field="*{dni}" placeholder="12345678" required>
+                </div>
+                <div>
+                    <label>Especialidad *</label>
+                    <input type="text" th:field="*{especialidad}" placeholder="Medicina General" required>
+                </div>
+                <div>
+                    <label>Médico *</label>
+                    <input type="text" th:field="*{medico}" placeholder="Dr. Carlos Ramírez" required>
+                </div>
+                <div>
+                    <label>Consultorio</label>
+                    <input type="text" th:field="*{consultorio}" placeholder="C-205">
+                </div>
+                <div>
+                    <label>Fecha *</label>
+                    <input type="date" th:field="*{fecha}" required>
+                </div>
+                <div>
+                    <label>Hora *</label>
+                    <input type="time" th:field="*{hora}" required>
+                </div>
+                <div>
+                    <label>Tipo de atención</label>
+                    <select th:field="*{tipoAtencion}">
+                        <option value="">Seleccione</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Teleconsulta">Teleconsulta</option>
+                    </select>
+                </div>
+                <div class="full">
+                    <label>Motivo</label>
+                    <input type="text" th:field="*{motivo}" placeholder="Control, dolor, seguimiento...">
+                </div>
+                <div class="full">
+                    <label>Observaciones</label>
+                    <textarea th:field="*{observaciones}" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Registrar cita</button>
+                <a class="btn btn-ghost" th:href="@{/citas}">Ver citas</a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
