@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Citas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Búsqueda Avanzada de Citas</h3>
+        </div>
+        <div class="card-body">
+
+            <form action="/vistas/consultas/buscar" method="get" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="tipo" class="col-form-label fw-bold">Filtrar por:</label>
+                </div>
+                <div class="col-md-3">
+                    <select name="tipo" id="tipo" class="form-select">
+                        <option value="paciente">Nombre del Paciente</option>
+                        <option value="medico">Nombre del Médico</option>
+                        <option value="especialidad">Especialidad</option>
+                        <option value="estado">Estado de la Cita</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="valor" class="form-control" placeholder="Ingrese el dato aquí..." required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <br>
+
+    <div th:if="${citas != null}" class="card shadow mt-3">
+        <div class="card-body">
+            <h4 class="text-secondary">Resultados:</h4>
+
+            <div class="table-responsive mt-3">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Código</th>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Especialidad</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cita : ${citas}">
+                        <td th:text="${cita.codigoCita}"></td>
+                        <td th:text="${cita.paciente}"></td>
+                        <td th:text="${cita.medico}"></td>
+                        <td th:text="${cita.especialidad}"></td>
+                        <td th:text="${cita.fecha}"></td>
+                        <td th:text="${cita.hora}"></td>
+                        <td>
+                            <span class="badge bg-info text-dark" th:text="${cita.estado}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(citas)}" class="alert alert-warning mt-3" role="alert">
+                ⚠️ No se encontraron resultados para la búsqueda.
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
