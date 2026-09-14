@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar cita</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">Citas Médicas · TECSUP</div>
+    <nav>
+        <a th:href="@{/citas/nueva}">Nueva cita</a>
+        &nbsp;·&nbsp;
+        <a th:href="@{/citas}">Citas registradas</a>
+    </nav>
+</header>
+<main class="wrap">
+
+    <section class="card">
+        <div class="alert alert-ok" th:if="${mensaje}" th:text="${mensaje}"></div>
+        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+        <h1>Gestionar cita</h1>
+        <p class="subtitle" th:text="${cita.codigoCita} + ' · Estado actual: ' + ${cita.estado}"></p>
+
+        <dl class="dl">
+            <dt>Paciente</dt><dd th:text="${cita.paciente}"></dd>
+            <dt>Médico</dt><dd th:text="${cita.medico}"></dd>
+            <dt>Especialidad</dt><dd th:text="${cita.especialidad}"></dd>
+            <dt>Consultorio</dt><dd th:text="${cita.consultorio}"></dd>
+            <dt>Fecha</dt><dd th:text="${cita.fecha}"></dd>
+            <dt>Hora</dt><dd th:text="${cita.hora}"></dd>
+            <dt>Motivo</dt><dd th:text="${cita.motivo}"></dd>
+        </dl>
+    </section>
+
+    <br>
+
+    <!-- RF-CIT-09: Modificar datos generales -->
+    <section class="card">
+        <h1>Modificar datos (RF-CIT-09)</h1>
+        <form th:action="@{/vistas/gestion/{id}/modificar(id=${cita.idCita})}" th:object="${cita}" method="post">
+            <div class="grid">
+                <div>
+                    <label>Paciente</label>
+                    <input type="text" th:field="*{paciente}">
+                </div>
+                <div>
+                    <label>DNI</label>
+                    <input type="text" th:field="*{dni}">
+                </div>
+                <div>
+                    <label>Especialidad</label>
+                    <input type="text" th:field="*{especialidad}">
+                </div>
+                <div>
+                    <label>Médico</label>
+                    <input type="text" th:field="*{medico}">
+                </div>
+                <div>
+                    <label>Consultorio</label>
+                    <input type="text" th:field="*{consultorio}">
+                </div>
+                <div>
+                    <label>Tipo de atención</label>
+                    <select th:field="*{tipoAtencion}">
+                        <option value="">Sin cambio</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Teleconsulta">Teleconsulta</option>
+                    </select>
+                </div>
+                <div class="full">
+                    <label>Observaciones</label>
+                    <textarea th:field="*{observaciones}" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Guardar cambios</button>
+            </div>
+        </form>
+    </section>
+
+    <br>
+
+    <!-- RF-CIT-10 + RF-CIT-12: Reprogramar -->
+    <section class="card">
+        <h1>Reprogramar cita (RF-CIT-10 / RF-CIT-12)</h1>
+        <form th:action="@{/vistas/gestion/{id}/reprogramar(id=${cita.idCita})}" method="post">
+            <div class="grid">
+                <div>
+                    <label>Nueva fecha</label>
+                    <input type="date" name="fecha">
+                </div>
+                <div>
+                    <label>Nueva hora</label>
+                    <input type="time" name="hora">
+                </div>
+                <div>
+                    <label>Nuevo médico (opcional)</label>
+                    <input type="text" name="medico" placeholder="Dejar vacío para no cambiar">
+                </div>
+                <div>
+                    <label>Nuevo consultorio (opcional)</label>
+                    <input type="text" name="consultorio" placeholder="Dejar vacío para no cambiar">
+                </div>
+                <div class="full">
+                    <label>Motivo de la reprogramación *</label>
+                    <input type="text" name="motivo" placeholder="Solicitud del paciente, cruce de horario..." required>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Reprogramar</button>
+            </div>
+        </form>
+    </section>
+
+    <br>
+
+    <!-- RF-CIT-13: Cambiar estado -->
+    <section class="card">
+        <h1>Cambiar estado (RF-CIT-13)</h1>
+        <form th:action="@{/vistas/gestion/{id}/estado(id=${cita.idCita})}" method="post">
+            <div class="grid">
+                <div>
+                    <label>Nuevo estado</label>
+                    <select name="estado">
+                        <option value="CONFIRMADA">CONFIRMADA</option>
+                        <option value="EN ESPERA">EN ESPERA</option>
+                        <option value="EN ATENCIÓN">EN ATENCIÓN</option>
+                        <option value="ATENDIDA">ATENDIDA</option>
+                        <option value="NO ASISTIÓ">NO ASISTIÓ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Actualizar estado</button>
+            </div>
+        </form>
+    </section>
+
+    <br>
+
+    <!-- RF-CIT-11 + RF-CIT-12: Cancelar -->
+    <section class="card">
+        <h1>Cancelar cita (RF-CIT-11 / RF-CIT-12)</h1>
+        <form th:action="@{/vistas/gestion/{id}/cancelar(id=${cita.idCita})}" method="post">
+            <div class="grid">
+                <div class="full">
+                    <label>Motivo de la cancelación *</label>
+                    <input type="text" name="motivo" placeholder="Paciente solicitó cancelación..." required>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-ghost" type="submit" style="color:var(--danger)">Cancelar cita</button>
+            </div>
+        </form>
+    </section>
+
+    <br>
+
+    <!-- Historial de cambios -->
+    <section class="card">
+        <h1>Historial de cambios</h1>
+        <p th:if="${#lists.isEmpty(historial)}">Todavía no hay cambios registrados para esta cita.</p>
+        <table th:if="${!#lists.isEmpty(historial)}">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Acción</th>
+                <th>Estado anterior</th>
+                <th>Estado nuevo</th>
+                <th>Motivo</th>
+                <th>Usuario</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="h : ${historial}">
+                <td th:text="${h.fechaRegistro}"></td>
+                <td th:text="${h.tipoAccion}"></td>
+                <td th:text="${h.estadoAnterior}"></td>
+                <td th:text="${h.estadoNuevo}"></td>
+                <td th:text="${h.motivo}"></td>
+                <td th:text="${h.usuario}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+</body>
+</html>
