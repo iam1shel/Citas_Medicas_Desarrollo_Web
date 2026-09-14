@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda Médica</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f6f9; }
+        .container { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-top: 0; }
+        .filter-form { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 25px; background: #e9ecef; padding: 15px; border-radius: 6px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        button { padding: 8px 18px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background-color: #343a40; color: white; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; background-color: #17a2b8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Agenda de Médicos (RF-CIT-07 / RF-CIT-08)</h2>
+
+    <!-- Formulario de Búsqueda y Filtrado -->
+    <form th:action="@{/agenda}" method="get" class="filter-form">
+        <div class="form-group">
+            <label for="medico">Médico:</label>
+            <input type="text" id="medico" name="medico" th:value="${medico}" placeholder="Ej. Dr. Pérez">
+        </div>
+
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" th:value="${fecha}">
+        </div>
+
+        <div class="form-group">
+            <label for="vista">Vista:</label>
+            <select id="vista" name="vista">
+                <option value="dia" th:selected="${vista == 'dia'}">Por Día</option>
+                <option value="semana" th:selected="${vista == 'semana'}">Por Semana</option>
+                <option value="mes" th:selected="${vista == 'mes'}">Por Mes</option>
+            </select>
+        </div>
+
+        <button type="submit">Consultar Agenda</button>
+    </form>
+
+    <!-- Tabla de Citas -->
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Especialidad</th>
+                <th>Consultorio</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cita : ${citas}">
+                <td th:text="${cita.codigoCita}">CIT-001</td>
+                <td th:text="${cita.paciente}">Nombre Paciente</td>
+                <td th:text="${cita.medico}">Nombre Médico</td>
+                <td th:text="${cita.especialidad}">Especialidad</td>
+                <td th:text="${cita.consultorio}">Consultorio</td>
+                <td th:text="${cita.fecha}">2026-09-13</td>
+                <td th:text="${cita.hora}">09:00</td>
+                <td><span class="badge" th:text="${cita.estado}">PENDIENTE</span></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(citas)}">
+                <td colspan="8" style="text-align: center; color: #6c757d;">No se encontraron citas programadas para el criterio seleccionado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
